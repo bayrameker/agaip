@@ -1,0 +1,13 @@
+# config.yaml
+api:
+  host: "0.0.0.0"
+  port: 8000
+
+security:
+  jwt_secret: "super_secret_key"
+  token_expiration: 3600
+
+agents:
+  - id: "agent_1"
+    plugin: "agaip.plugins.dummy_model.DummyModelPlugin"
+  # İhtiyaca göre yeni agent/plugin tanımlamaları eklenebilir.

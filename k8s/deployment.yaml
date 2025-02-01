@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agaip-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: agaip
+  template:
+    metadata:
+      labels:
+        app: agaip
+    spec:
+      containers:
+        - name: agaip
+          image: agaip:latest
+          ports:
+            - containerPort: 8000
+          env:
+            - name: CONFIG_PATH
+              value: "/app/config.yaml"
