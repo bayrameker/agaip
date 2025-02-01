@@ -2,7 +2,7 @@
 
 ```markdown
 # Agaip - Super Power Agentic AI Framework
- ```
+```
 **Agaip** is a new, open-source framework designed to seamlessly integrate Artificial Intelligence (AI), dynamic models, and agentic behaviors into any system. Built with an API-first and asynchronous approach, Agaip allows you to add AI capabilities to your projects regardless of your tech stack—whether you’re using Spring Boot, Django/Flask, Laravel, Go, or any other language.
 
 ## Table of Contents
