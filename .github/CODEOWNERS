@@ -1,0 +1,41 @@
+# CODEOWNERS file for agaip repository
+# This file defines who owns what parts of the codebase
+# and who should review pull requests for specific files/directories
+
+# Global owners - these users will be requested for review on all PRs
+* @bayrameker
+
+# Core framework files
+/agaip/core/ @bayrameker
+/agaip/api/ @bayrameker
+/agaip/config/ @bayrameker
+
+# Database and models
+/agaip/database/ @bayrameker
+/agaip/models/ @bayrameker
+
+# Plugin system
+/agaip/plugins/ @bayrameker
+
+# Services
+/agaip/services/ @bayrameker
+
+# Documentation
+/docs/ @bayrameker
+/README.md @bayrameker
+/mkdocs.yml @bayrameker
+
+# Configuration files
+/pyproject.toml @bayrameker
+/poetry.lock @bayrameker
+/Dockerfile @bayrameker
+/docker-compose.yml @bayrameker
+
+# CI/CD and GitHub workflows
+/.github/ @bayrameker
+
+# Tests
+/tests/ @bayrameker
+
+# Dependabot PRs - automatically assign to maintainer
+/.github/dependabot.yml @bayrameker

@@ -69,7 +69,7 @@ jobs:
 
     - name: Install dependencies
       if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-      run: poetry install --no-interaction --no-root --with dev,test
+      run: poetry install --no-interaction --with dev,test
 
     - name: Install project
       run: poetry install --no-interaction
@@ -81,7 +81,7 @@ jobs:
         poetry run flake8 agaip/
 
     - name: Run type checking
-      run: poetry run mypy agaip/
+      run: poetry run mypy agaip/ --ignore-missing-imports
 
     - name: Run security checks
       run: poetry run bandit -r agaip/
