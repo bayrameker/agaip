@@ -91,7 +91,7 @@ factory-boy = "^3.3.0"  # Test data factories
 # Code Quality
 black = "^23.11.0"  # Code formatting
 isort = "^5.12.0"  # Import sorting
-flake8 = "^6.1.0"  # Linting
+flake8 = "^7.3.0"  # Linting
 mypy = "^1.7.1"  # Type checking
 bandit = "^1.7.5"  # Security linting
 pre-commit = "^3.6.0"  # Git hooks
