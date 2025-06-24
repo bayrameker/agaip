@@ -1,0 +1,50 @@
+name: Close Excessive Dependabot PRs
+
+on:
+  workflow_dispatch:
+
+permissions:
+  pull-requests: write
+
+jobs:
+  close-prs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close excessive dependabot PRs
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: prs } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100
+            });
+            
+            const dependabotPRs = prs.filter(pr => 
+              pr.user.login === 'dependabot[bot]' && 
+              pr.title.startsWith('deps')
+            );
+            
+            console.log(`Found ${dependabotPRs.length} dependabot PRs`);
+            
+            // Keep only the 3 most recent ones, close the rest
+            const prsToClose = dependabotPRs.slice(3);
+            
+            for (const pr of prsToClose) {
+              await github.rest.pulls.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pr.number,
+                state: 'closed'
+              });
+              
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: 'Closing this PR to reduce notification spam. Dependencies will be updated in batches monthly.'
+              });
+              
+              console.log(`Closed PR #${pr.number}: ${pr.title}`);
+            }
