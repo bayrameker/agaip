@@ -107,7 +107,7 @@ jupyter = "^1.0.0"
 watchdog = "^3.0.0"  # File watching
 
 [tool.poetry.group.test.dependencies]
-pytest-benchmark = "^4.0.0"  # Performance testing
+pytest-benchmark = "^5.0.1"  # Performance testing
 locust = "^2.17.0"  # Load testing
 
 [tool.poetry.scripts]
