@@ -75,7 +75,7 @@ pluggy = "^1.3.0"  # Plugin framework
 importlib-metadata = "^6.8.0"
 
 # Validation & Serialization
-marshmallow = "^3.20.1"
+marshmallow = "^4.0.0"
 jsonschema = "^4.20.0"
 
 [tool.poetry.group.dev.dependencies]
