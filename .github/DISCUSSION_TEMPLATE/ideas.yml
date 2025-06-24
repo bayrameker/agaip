@@ -1,0 +1,123 @@
+labels: ["idea", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        💡 **Ideas & Suggestions Template**
+        
+        Share your ideas for improving Agaip! This is the place for brainstorming and discussing potential enhancements.
+
+  - type: input
+    id: title
+    attributes:
+      label: Idea Title
+      description: A clear, descriptive title for your idea
+      placeholder: "e.g., Add support for custom agent middleware"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area of Improvement
+      description: Which area of Agaip would this idea improve?
+      options:
+        - Core Framework
+        - Agent System
+        - API & Endpoints
+        - Database & ORM
+        - CLI Tools
+        - Documentation
+        - Testing
+        - Performance
+        - Security
+        - Developer Experience
+        - Community & Ecosystem
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Opportunity
+      description: What problem does this idea solve or what opportunity does it address?
+      placeholder: |
+        Describe:
+        - Current limitations or pain points
+        - Missing functionality
+        - Opportunities for improvement
+        - User needs that aren't being met
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe your idea in detail
+      placeholder: |
+        Explain your proposed solution:
+        - How would it work?
+        - What would the API/interface look like?
+        - How would users interact with it?
+        - What would be the expected behavior?
+    validations:
+      required: true
+
+  - type: textarea
+    id: benefits
+    attributes:
+      label: Benefits
+      description: What benefits would this idea provide?
+      placeholder: |
+        - Improved developer experience
+        - Better performance
+        - Enhanced functionality
+        - Easier maintenance
+        - Better user experience
+
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples or Use Cases
+      description: Provide concrete examples or use cases
+      placeholder: |
+        Show how this would be used in practice:
+        - Code examples
+        - Real-world scenarios
+        - User stories
+        - Before/after comparisons
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Are there alternative approaches to consider?
+      placeholder: |
+        - Other ways to solve the same problem
+        - Existing solutions in other frameworks
+        - Workarounds currently being used
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority Level
+      description: How important is this idea?
+      options:
+        - Low (nice to have)
+        - Medium (would be helpful)
+        - High (significant improvement)
+        - Critical (essential for adoption)
+
+  - type: checkboxes
+    id: implementation
+    attributes:
+      label: Implementation Considerations
+      description: Have you thought about implementation?
+      options:
+        - label: This would be a breaking change
+        - label: This requires new dependencies
+        - label: This affects the public API
+        - label: This requires documentation updates
+        - label: I'm willing to help implement this

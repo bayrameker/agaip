@@ -1,0 +1,214 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "agaip"
+version = "3.0.0"
+description = "Super Power Agentic AI Framework - Global, scalable, and modern AI agent framework"
+authors = ["Bayram Eker <eker600@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/bayrameker/agaip"
+repository = "https://github.com/bayrameker/agaip"
+documentation = "https://agaip.readthedocs.io"
+keywords = ["ai", "agents", "framework", "async", "microservices", "api"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+# Core Framework
+fastapi = "^0.104.1"
+uvicorn = {extras = ["standard"], version = "^0.24.0"}
+pydantic = {extras = ["email"], version = "^2.5.0"}
+pydantic-settings = "^2.1.0"
+
+# Database & ORM
+tortoise-orm = {extras = ["aiosqlite"], version = "^0.20.0"}
+aerich = "^0.7.2"  # Database migrations
+
+# Configuration & Environment
+pyyaml = "^6.0.1"
+python-dotenv = "^1.0.0"
+dynaconf = "^3.2.4"  # Advanced configuration management
+
+# Security & Authentication
+python-jose = {extras = ["cryptography"], version = "^3.3.0"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+python-multipart = "^0.0.6"  # Form data support
+
+# Async & Concurrency
+asyncio-mqtt = "^0.16.1"  # MQTT support
+aioredis = "^2.0.1"  # Redis async client
+celery = {extras = ["redis"], version = "^5.3.4"}  # Task queue
+
+# HTTP & Networking
+httpx = "^0.25.2"  # Async HTTP client
+aiofiles = "^23.2.1"  # Async file operations
+
+# Monitoring & Observability
+prometheus-client = "^0.19.0"  # Metrics
+opentelemetry-api = "^1.21.0"  # Tracing
+opentelemetry-sdk = "^1.21.0"
+opentelemetry-instrumentation-fastapi = "^0.42b0"
+structlog = "^23.2.0"  # Structured logging
+
+# Utilities
+click = "^8.1.7"  # CLI framework
+rich = "^13.7.0"  # Rich terminal output
+tenacity = "^8.2.3"  # Retry logic
+cachetools = "^5.3.2"  # Caching utilities
+
+# Plugin System
+pluggy = "^1.3.0"  # Plugin framework
+importlib-metadata = "^6.8.0"
+
+# Validation & Serialization
+marshmallow = "^3.20.1"
+jsonschema = "^4.20.0"
+
+[tool.poetry.group.dev.dependencies]
+# Testing
+pytest = "^7.4.3"
+pytest-asyncio = "^0.21.1"
+pytest-cov = "^4.1.0"
+pytest-mock = "^3.12.0"
+pytest-xdist = "^3.5.0"  # Parallel testing
+httpx = "^0.25.2"  # For testing HTTP clients
+factory-boy = "^3.3.0"  # Test data factories
+
+# Code Quality
+black = "^23.11.0"  # Code formatting
+isort = "^5.12.0"  # Import sorting
+flake8 = "^6.1.0"  # Linting
+mypy = "^1.7.1"  # Type checking
+bandit = "^1.7.5"  # Security linting
+pre-commit = "^3.6.0"  # Git hooks
+
+# Documentation
+mkdocs = "^1.5.3"
+mkdocs-material = "^9.4.8"
+mkdocstrings = {extras = ["python"], version = "^0.24.0"}
+
+# Development Tools
+ipython = "^8.17.2"
+jupyter = "^1.0.0"
+watchdog = "^3.0.0"  # File watching
+
+[tool.poetry.group.test.dependencies]
+pytest-benchmark = "^4.0.0"  # Performance testing
+locust = "^2.17.0"  # Load testing
+
+[tool.poetry.scripts]
+agaip = "agaip.cli:main"
+agaip-server = "agaip.api.app:run"
+agaip-migrate = "agaip.database.migrations:run"
+
+[tool.poetry.plugins."agaip.plugins"]
+dummy = "agaip.plugins.builtin.dummy_model:DummyModelPlugin"
+
+# Black configuration
+[tool.black]
+line-length = 88
+target-version = ['py310']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+# isort configuration
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["agaip"]
+
+# mypy configuration
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+module = [
+    "tortoise.*",
+    "aerich.*",
+    "pluggy.*",
+]
+ignore_missing_imports = true
+
+# pytest configuration
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers --strict-config"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "e2e: marks tests as end-to-end tests",
+]
+asyncio_mode = "auto"
+
+# Coverage configuration
+[tool.coverage.run]
+source = ["agaip"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/migrations/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+# Bandit security configuration
+[tool.bandit]
+exclude_dirs = ["tests", "test_*"]
+skips = ["B101", "B601"]

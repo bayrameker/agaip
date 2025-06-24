@@ -1,0 +1,79 @@
+labels: ["announcement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        📢 **Announcement Template**
+        
+        Use this template for project announcements, releases, and important updates.
+
+  - type: input
+    id: title
+    attributes:
+      label: Announcement Title
+      description: A clear, descriptive title for your announcement
+      placeholder: "e.g., Agaip v3.1.0 Released with New Agent Features"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: type
+    attributes:
+      label: Announcement Type
+      description: What type of announcement is this?
+      options:
+        - Release
+        - Feature Update
+        - Breaking Change
+        - Security Update
+        - Community Update
+        - Event/Webinar
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Brief summary of the announcement
+      placeholder: "Provide a concise overview of what's being announced..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: details
+    attributes:
+      label: Detailed Information
+      description: Comprehensive details about the announcement
+      placeholder: |
+        Include:
+        - What's new or changed
+        - Impact on users
+        - Migration steps (if applicable)
+        - Links to documentation
+        - Timeline information
+    validations:
+      required: true
+
+  - type: textarea
+    id: links
+    attributes:
+      label: Relevant Links
+      description: Links to documentation, releases, or related resources
+      placeholder: |
+        - Documentation: https://agaip.readthedocs.io
+        - Release Notes: https://github.com/bayrameker/agaip/releases
+        - Migration Guide: (if applicable)
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Pre-announcement Checklist
+      description: Ensure all items are completed before posting
+      options:
+        - label: Documentation has been updated
+        - label: Release notes are complete
+        - label: Breaking changes are clearly documented
+        - label: Migration guide is available (if needed)
+        - label: Community has been notified in advance (for major changes)

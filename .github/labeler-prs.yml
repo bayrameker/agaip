@@ -1,0 +1,81 @@
+# Auto-labeling configuration for Pull Requests
+
+# Core components
+'area/core':
+  - 'agaip/core/**/*'
+  - 'agaip/__init__.py'
+
+'area/api':
+  - 'agaip/api/**/*'
+  - 'agaip/api.py'
+
+'area/agents':
+  - 'agaip/agents/**/*'
+  - 'agaip/agent_manager.py'
+
+'area/database':
+  - 'agaip/database/**/*'
+  - 'agaip/db.py'
+  - 'agaip/models/**/*'
+
+'area/cli':
+  - 'agaip/cli.py'
+
+'area/config':
+  - 'agaip/config/**/*'
+  - 'agaip/config.py'
+  - 'config.yaml'
+
+'area/services':
+  - 'agaip/services/**/*'
+
+'area/plugins':
+  - 'agaip/plugins/**/*'
+
+'area/utils':
+  - 'agaip/utils/**/*'
+
+# Infrastructure
+'area/docker':
+  - 'Dockerfile*'
+  - 'docker-compose*.yml'
+  - '.dockerignore'
+
+'area/k8s':
+  - 'k8s/**/*'
+
+'area/ci':
+  - '.github/workflows/**/*'
+  - '.github/actions/**/*'
+
+# Documentation
+'area/docs':
+  - 'docs/**/*'
+  - '*.md'
+  - 'mkdocs.yml'
+
+# Dependencies
+'dependencies':
+  - 'pyproject.toml'
+  - 'poetry.lock'
+  - 'requirements*.txt'
+
+# Tests
+'area/tests':
+  - 'tests/**/*'
+  - '**/test_*.py'
+  - '**/*_test.py'
+
+# Configuration
+'area/config':
+  - '*.yml'
+  - '*.yaml'
+  - '*.toml'
+  - '*.ini'
+  - '.env*'
+
+# Security
+'security':
+  - 'SECURITY.md'
+  - '.github/workflows/security.yml'
+  - 'agaip/security/**/*'

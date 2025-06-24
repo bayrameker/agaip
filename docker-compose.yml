@@ -1,0 +1,280 @@
+version: '3.8'
+
+services:
+  # =============================================================================
+  # AGAIP API SERVICE
+  # =============================================================================
+  agaip-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: agaip-api
+    ports:
+      - "8000:8000"
+      - "9090:9090"  # Metrics port
+    environment:
+      - ENVIRONMENT=development
+      - DATABASE_URL=postgresql://agaip:agaip123@postgres:5432/agaip
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+      - ./data:/app/data
+      - ./plugins:/app/plugins
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - agaip-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # =============================================================================
+  # CELERY WORKER SERVICE
+  # =============================================================================
+  agaip-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: agaip-worker
+    command: celery -A agaip.core.celery worker --loglevel=info --concurrency=4
+    environment:
+      - ENVIRONMENT=development
+      - DATABASE_URL=postgresql://agaip:agaip123@postgres:5432/agaip
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+      - ./data:/app/data
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - agaip-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "celery", "-A", "agaip.core.celery", "inspect", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # =============================================================================
+  # CELERY BEAT SCHEDULER
+  # =============================================================================
+  agaip-scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: agaip-scheduler
+    command: celery -A agaip.core.celery beat --loglevel=info
+    environment:
+      - ENVIRONMENT=development
+      - DATABASE_URL=postgresql://agaip:agaip123@postgres:5432/agaip
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+    volumes:
+      - .:/app
+      - ./logs:/app/logs
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - agaip-network
+    restart: unless-stopped
+
+  # =============================================================================
+  # POSTGRESQL DATABASE
+  # =============================================================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: agaip-postgres
+    environment:
+      POSTGRES_DB: agaip
+      POSTGRES_USER: agaip
+      POSTGRES_PASSWORD: agaip123
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./deployments/docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - agaip-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agaip -d agaip"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # =============================================================================
+  # REDIS CACHE & MESSAGE BROKER
+  # =============================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: agaip-redis
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+      - ./deployments/docker/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    networks:
+      - agaip-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # =============================================================================
+  # MONITORING SERVICES
+  # =============================================================================
+  
+  # Prometheus for metrics collection
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: agaip-prometheus
+    ports:
+      - "9091:9090"
+    volumes:
+      - ./deployments/docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - agaip-network
+    restart: unless-stopped
+
+  # Grafana for metrics visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: agaip-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./deployments/docker/grafana/provisioning:/etc/grafana/provisioning
+      - ./deployments/docker/grafana/dashboards:/var/lib/grafana/dashboards
+    networks:
+      - agaip-network
+    restart: unless-stopped
+    depends_on:
+      - prometheus
+
+  # Jaeger for distributed tracing
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: agaip-jaeger
+    ports:
+      - "16686:16686"  # Jaeger UI
+      - "14268:14268"  # HTTP collector
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - agaip-network
+    restart: unless-stopped
+
+  # =============================================================================
+  # DEVELOPMENT TOOLS
+  # =============================================================================
+  
+  # Flower for Celery monitoring
+  flower:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    container_name: agaip-flower
+    command: celery -A agaip.core.celery flower --port=5555
+    ports:
+      - "5555:5555"
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/1
+      - CELERY_RESULT_BACKEND=redis://redis:6379/2
+    depends_on:
+      - redis
+    networks:
+      - agaip-network
+    restart: unless-stopped
+
+  # pgAdmin for PostgreSQL management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: agaip-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@agaip.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - agaip-network
+    restart: unless-stopped
+
+  # Redis Commander for Redis management
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: agaip-redis-commander
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    networks:
+      - agaip-network
+    restart: unless-stopped
+
+# =============================================================================
+# NETWORKS
+# =============================================================================
+networks:
+  agaip-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# =============================================================================
+# VOLUMES
+# =============================================================================
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  pgadmin_data:
+    driver: local

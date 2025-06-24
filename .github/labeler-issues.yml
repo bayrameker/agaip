@@ -1,0 +1,99 @@
+# Auto-labeling configuration for Issues
+
+# Component areas based on keywords in title/body
+area/api:
+  - 'api'
+  - 'endpoint'
+  - 'rest'
+  - 'fastapi'
+  - 'http'
+
+area/agents:
+  - 'agent'
+  - 'agents'
+  - 'ai'
+  - 'model'
+
+area/database:
+  - 'database'
+  - 'db'
+  - 'sql'
+  - 'migration'
+  - 'tortoise'
+  - 'orm'
+
+area/cli:
+  - 'cli'
+  - 'command line'
+  - 'terminal'
+
+area/config:
+  - 'config'
+  - 'configuration'
+  - 'settings'
+  - 'environment'
+
+area/docker:
+  - 'docker'
+  - 'container'
+  - 'dockerfile'
+
+area/docs:
+  - 'documentation'
+  - 'docs'
+  - 'readme'
+  - 'guide'
+
+area/tests:
+  - 'test'
+  - 'testing'
+  - 'pytest'
+  - 'coverage'
+
+# Priority based on keywords
+priority/high:
+  - 'critical'
+  - 'urgent'
+  - 'security'
+  - 'vulnerability'
+  - 'data loss'
+  - 'crash'
+
+priority/medium:
+  - 'important'
+  - 'performance'
+  - 'slow'
+
+priority/low:
+  - 'enhancement'
+  - 'nice to have'
+  - 'minor'
+
+# Type based on keywords
+type/performance:
+  - 'performance'
+  - 'slow'
+  - 'speed'
+  - 'optimization'
+  - 'memory'
+  - 'cpu'
+
+type/security:
+  - 'security'
+  - 'vulnerability'
+  - 'auth'
+  - 'authentication'
+  - 'authorization'
+
+type/documentation:
+  - 'documentation'
+  - 'docs'
+  - 'readme'
+  - 'guide'
+  - 'tutorial'
+
+type/question:
+  - 'question'
+  - 'how to'
+  - 'help'
+  - 'support'

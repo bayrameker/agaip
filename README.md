@@ -1,241 +1,310 @@
+# 🚀 Agaip Framework v3.0
 
+**Super Power Agentic AI Framework** - Global, scalable, and modern AI agent framework
 
-```markdown
-# Agaip - Super Power Agentic AI Framework
-```
-**Agaip** is a new, open-source framework designed to seamlessly integrate Artificial Intelligence (AI), dynamic models, and agentic behaviors into any system. Built with an API-first and asynchronous approach, Agaip allows you to add AI capabilities to your projects regardless of your tech stack—whether you’re using Spring Boot, Django/Flask, Laravel, Go, or any other language.
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)](https://fastapi.tiangolo.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Docker](https://img.shields.io/badge/Docker-Ready-blue.svg)](https://www.docker.com/)
 
-## Table of Contents
-- [Features](#features)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Usage](#usage)
-  - [Local Development](#local-development)
-  - [Docker Deployment](#docker-deployment)
-  - [Kubernetes Deployment](#kubernetes-deployment)
-- [Integration with Other Languages](#integration-with-other-languages)
-  - [Java (Spring Boot)](#java-spring-boot)
-  - [Python (Django/Flask)](#python-djangoflask)
-  - [PHP (Laravel)](#php-laravel)
-  - [Go](#go)
-- [Project Structure](#project-structure)
-- [Future Enhancements](#future-enhancements)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
+Agaip is a powerful, modern, and scalable framework for building and managing AI agents. Built with FastAPI, it provides a robust foundation for creating distributed AI systems with enterprise-grade features.
 
-## Features
+## ✨ Features
 
-- **API-First Architecture:**  
-  Exposes a robust, fully documented RESTful API (with optional gRPC support) using [FastAPI](https://fastapi.tiangolo.com/), making it accessible to any platform that supports HTTP calls.
+### 🏗️ **Modern Architecture**
+- **Event-Driven**: Asynchronous event bus for decoupled communication
+- **Microservices Ready**: Container-native with Kubernetes support
+- **Plugin System**: Hot-reloadable plugins with dependency injection
+- **Repository Pattern**: Clean data access layer with Tortoise ORM
 
-- **Dynamic Plugin & Agent Management:**  
-  AI models and agentic behaviors are implemented as plugins. They can be loaded and updated dynamically without restarting the system, offering maximum flexibility.
+### 🔧 **Developer Experience**
+- **Type Safety**: Full TypeScript-like type hints with Pydantic
+- **Auto Documentation**: Interactive API docs with OpenAPI/Swagger
+- **CLI Tools**: Rich command-line interface for development
+- **Hot Reload**: Development server with automatic reloading
 
-- **Asynchronous Task Processing:**  
-  Leverages Python’s `async/await` to handle tasks in a non-blocking, high-performance manner.
+### 📊 **Observability**
+- **Structured Logging**: JSON-formatted logs with request tracing
+- **Metrics**: Prometheus metrics with Grafana dashboards
+- **Health Checks**: Kubernetes-ready health and readiness probes
+- **Distributed Tracing**: OpenTelemetry integration
 
-- **Built-In Database Integration:**  
-  Every task is logged and tracked using Tortoise ORM. By default, it uses SQLite, but it can be easily configured to work with PostgreSQL, MySQL, etc.
+### 🔒 **Security & Scalability**
+- **JWT Authentication**: Secure API access with role-based permissions
+- **Rate Limiting**: Configurable rate limiting per user/IP
+- **Multi-Database**: Support for PostgreSQL, MySQL, SQLite
+- **Background Tasks**: Celery integration for async processing
 
-- **DevOps-Ready:**  
-  Comes with a Dockerfile and Kubernetes deployment files for seamless containerization and scalable production deployment.
-
-- **Multi-Language Support:**  
-  Being API-driven, Agaip can be integrated with applications written in any language—Java, Python, PHP, Go, etc.
-
-## Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.10 or later
-- [pip](https://pip.pypa.io/)
-- (Optional) Docker and Kubernetes for containerized deployment
+
+- Python 3.10+
+- Poetry (recommended) or pip
+- Redis (for caching and task queue)
+- PostgreSQL (optional, SQLite by default)
 
 ### Installation
 
-1. **Clone the Repository:**
-   ```bash
-   git clone https://github.com/bayrameker/agaip.git
-   cd agaip
-   ```
-
-2. **Install Dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-## Usage
-
-### Local Development
-Run the application with hot reloading using Uvicorn:
 ```bash
-uvicorn agaip.api:app --reload
-```
-Access the interactive API documentation at [http://localhost:8000/docs](http://localhost:8000/docs).
+# Clone the repository
+git clone https://github.com/bayrameker/agaip.git
+cd agaip
 
-### Docker Deployment
-Build and run the Docker container:
+# Install with Poetry (recommended)
+poetry install
+
+# Or with pip
+pip install -e .
+```
+
+### Initialize & Run
+
 ```bash
-docker build -t agaip .
-docker run -p 8000:8000 agaip
+# Initialize the application
+agaip init
+
+# Start the development server
+agaip serve --reload
+
+# Or with uvicorn directly
+uvicorn agaip.api.app:get_app --reload
 ```
 
-### Kubernetes Deployment
-Deploy using the provided YAML files:
-- `k8s/deployment.yaml`
-- `k8s/service.yaml`
+The API will be available at:
+- **API**: http://localhost:8000
+- **Docs**: http://localhost:8000/docs
+- **Health**: http://localhost:8000/api/v1/health
 
-## Integration with Other Languages
+## 📖 Usage
 
-Agaip’s API-first design makes it easy to integrate with any language. Here are a few examples:
+### Creating Your First Agent
 
-### Java (Spring Boot)
-```java
-@FeignClient(name = "agaipClient", url = "http://agaip-service")
-public interface AgaipClient {
-    @PostMapping("/agent/task")
-    ResponseEntity<Map<String, Object>> sendTask(@RequestBody TaskRequest taskRequest,
-                                                   @RequestHeader("Authorization") String token);
-}
-```
-
-### Python (Django/Flask)
 ```python
-import requests
+from agaip.plugins.base import BasePlugin
+from typing import Dict, Any
 
-headers = {"Authorization": "Bearer gecerli_token"}
-payload = {"agent_id": "agent_1", "payload": {"data": "example data"}}
-response = requests.post("http://agaip-service/agent/task", json=payload, headers=headers)
-print(response.json())
-```
-
-### PHP (Laravel)
-```php
-$client = new \GuzzleHttp\Client();
-$response = $client->post('http://agaip-service/agent/task', [
-    'headers' => [
-        'Authorization' => 'Bearer gecerli_token',
-        'Accept'        => 'application/json',
-    ],
-    'json' => [
-        'agent_id' => 'agent_1',
-        'payload'  => ['data' => 'example data'],
-    ],
-]);
-$result = json_decode($response->getBody(), true);
-print_r($result);
-```
-
-### Go
-```go
-package main
-
-import (
-    "bytes"
-    "encoding/json"
-    "fmt"
-    "net/http"
-)
-
-type TaskRequest struct {
-    AgentID string                 `json:"agent_id"`
-    Payload map[string]interface{} `json:"payload"`
-}
-
-func main() {
-    reqBody := TaskRequest{
-        AgentID: "agent_1",
-        Payload: map[string]interface{}{"data": "example data"},
-    }
-    jsonData, _ := json.Marshal(reqBody)
-    req, _ := http.NewRequest("POST", "http://agaip-service/agent/task", bytes.NewBuffer(jsonData))
-    req.Header.Set("Authorization", "Bearer gecerli_token")
-    req.Header.Set("Content-Type", "application/json")
+class MyAIPlugin(BasePlugin):
+    """Custom AI plugin example."""
     
-    client := &http.Client{}
-    resp, err := client.Do(req)
-    if err != nil {
-        panic(err)
-    }
-    defer resp.Body.Close()
-    fmt.Println("Status:", resp.Status)
-    // Process the response as needed...
-}
+    def __init__(self, config: Dict[str, Any] = None):
+        super().__init__(config)
+        self.name = "my_ai_plugin"
+        self.version = "1.0.0"
+    
+    async def load_model(self) -> None:
+        """Load your AI model here."""
+        # Initialize your model
+        self.model = "your_model_here"
+        self.is_loaded = True
+    
+    async def predict(self, data: Dict[str, Any]) -> Dict[str, Any]:
+        """Make predictions."""
+        # Your prediction logic
+        return {
+            "prediction": "result",
+            "confidence": 0.95,
+            "model": self.name
+        }
 ```
 
-## Project Structure
+### API Usage
+
+```python
+import httpx
+
+# Create a task
+async with httpx.AsyncClient() as client:
+    response = await client.post(
+        "http://localhost:8000/api/v1/tasks",
+        json={
+            "name": "My Task",
+            "agent_id": "my_agent",
+            "payload": {"input": "Hello, AI!"}
+        },
+        headers={"Authorization": "Bearer your-api-key"}
+    )
+    
+    task = response.json()
+    print(f"Task created: {task['id']}")
+```
+
+### CLI Commands
+
+```bash
+# Application management
+agaip serve --host 0.0.0.0 --port 8000 --workers 4
+agaip status
+agaip init
+
+# Database operations
+agaip db migrate
+agaip db reset
+
+# Plugin management
+agaip plugin list
+agaip plugin load my_plugin
+
+# Development tools
+agaip dev test
+agaip dev lint
+```
+
+## 🐳 Docker Deployment
+
+### Development
+
+```bash
+# Start with Docker Compose
+docker-compose up -d
+
+# View logs
+docker-compose logs -f agaip-api
+```
+
+### Production
+
+```bash
+# Build production image
+docker build --target production -t agaip:latest .
+
+# Run with environment variables
+docker run -d \
+  -p 8000:8000 \
+  -e ENVIRONMENT=production \
+  -e DATABASE_URL=postgresql://user:pass@db:5432/agaip \
+  -e REDIS_URL=redis://redis:6379/0 \
+  agaip:latest
+```
+
+## 🏗️ Architecture
 
 ```
 agaip/
-├── agaip/
-│   ├── __init__.py
-│   ├── api.py                # FastAPI server and endpoints
-│   ├── agent_manager.py      # Agent management and task dispatching
-│   ├── agents/               
-│   │   └── agent.py          # Agent class for task processing
-│   ├── plugins/              
-│   │   ├── base_model.py     # Plugin interface for AI models
-│   │   └── dummy_model.py    # Sample dummy model plugin
-│   ├── utils/                
-│   │   └── plugin_loader.py  # Dynamic plugin loader using importlib
-│   ├── config.py             # Configuration loader (YAML)
-│   ├── db.py                 # Database initialization using Tortoise ORM
-│   └── models/               
-│       └── task.py           # Task model for logging tasks
-├── config.yaml               # Global configuration file
-├── requirements.txt          # Python dependencies
-├── Dockerfile                # Docker container configuration
-├── k8s/
-│   ├── deployment.yaml       # Kubernetes deployment file
-│   └── service.yaml          # Kubernetes service file
-└── README.md                 # This file
+├── 🏛️ core/              # Core framework components
+│   ├── application.py     # Application factory
+│   ├── container.py       # Dependency injection
+│   ├── events.py          # Event system
+│   └── exceptions.py      # Custom exceptions
+├── ⚙️ config/             # Configuration management
+├── 🗄️ database/           # Database layer
+│   ├── models/            # Database models
+│   └── repositories/      # Repository pattern
+├── 🌐 api/                # API layer
+│   ├── v1/                # API version 1
+│   └── middleware.py      # Custom middleware
+├── 🔌 plugins/            # Plugin system
+│   ├── base.py            # Base plugin class
+│   ├── loader.py          # Plugin loader
+│   └── builtin/           # Built-in plugins
+├── 🤖 agents/             # Agent management
+├── 📊 services/           # Business logic
+└── 🛠️ monitoring/         # Observability
 ```
 
-## Future Enhancements
+## 🔧 Configuration
 
-Agaip is a new and evolving project. Future plans include:
+Create a `.env` file:
 
-- **Advanced Security:**  
-  Implement JWT or OAuth2-based authentication and enhanced access control.
+```env
+# Environment
+ENVIRONMENT=development
+DEBUG=true
 
-- **Enhanced Monitoring & Logging:**  
-  Integrate centralized logging (e.g., ELK stack) and monitoring solutions (e.g., Prometheus, Grafana).
+# API
+API_HOST=0.0.0.0
+API_PORT=8000
 
-- **gRPC Support:**  
-  Provide gRPC endpoints for environments demanding low latency.
+# Database
+DATABASE_URL=sqlite://./data/agaip.db
 
-- **Extended Database Options:**  
-  Out-of-the-box support for PostgreSQL, MySQL, and other enterprise-grade databases.
+# Security
+JWT_SECRET_KEY=your-secret-key
+DEFAULT_API_KEY=your-api-key
 
-- **Message Queue Integration:**  
-  Add support for RabbitMQ, Kafka, or Celery for distributed processing.
+# Redis
+REDIS_URL=redis://localhost:6379/0
 
-- **Community-Driven Plugin Ecosystem:**  
-  Foster contributions to create a rich library of plugins for various AI models and agentic behaviors.
+# Monitoring
+METRICS_ENABLED=true
+TRACING_ENABLED=false
+```
 
-- **Comprehensive SDKs:**  
-  Develop client SDKs in multiple languages to simplify integration.
+## 🧪 Testing
 
-## Contributing
+```bash
+# Run all tests
+pytest
 
-Contributions are welcome! Whether you want to fix bugs, add features, or propose improvements, please open an issue or submit a pull request. Let’s build a powerful, community-driven framework together.
+# Run with coverage
+pytest --cov=agaip --cov-report=html
 
-## License
+# Run specific test file
+pytest tests/test_api.py -v
 
-This project is licensed under the [MIT License](LICENSE).
+# Run integration tests
+pytest tests/integration/ -v
+```
 
-## Contact
+## 📈 Monitoring
 
-For any questions or feedback, please open an issue on GitHub or contact the maintainers.
+### Metrics (Prometheus)
+
+```bash
+# Access metrics
+curl http://localhost:9090/metrics
+```
+
+### Health Checks
+
+```bash
+# Basic health
+curl http://localhost:8000/api/v1/health
+
+# Detailed health
+curl http://localhost:8000/api/v1/health/detailed
+
+# Kubernetes probes
+curl http://localhost:8000/api/v1/ready
+curl http://localhost:8000/api/v1/live
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Development Setup
+
+```bash
+# Clone and setup
+git clone https://github.com/bayrameker/agaip.git
+cd agaip
+
+# Install development dependencies
+poetry install --with dev,test
+
+# Setup pre-commit hooks
+pre-commit install
+
+# Run tests
+pytest
+
+# Format code
+black agaip/
+isort agaip/
+```
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [FastAPI](https://fastapi.tiangolo.com/) for the amazing web framework
+- [Tortoise ORM](https://tortoise.github.io/) for async database operations
+- [Celery](https://docs.celeryq.dev/) for distributed task processing
+- [Pydantic](https://docs.pydantic.dev/) for data validation
 
 ---
 
-Happy coding, and welcome to the future of agentic AI with Agaip!
-
-GitHub Repository: [https://github.com/bayrameker/agaip](https://github.com/bayrameker/agaip)
-```
-
----
-
-Feel free to adjust any sections or details to best fit your project's style and requirements. Enjoy building with Agaip!
+**Made with ❤️ by the Agaip Team**

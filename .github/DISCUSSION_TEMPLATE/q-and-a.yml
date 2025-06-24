@@ -1,0 +1,124 @@
+labels: ["question", "help wanted"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ❓ **Q&A Template**
+        
+        Ask questions about using Agaip, get help with implementation, or seek clarification on features.
+
+  - type: input
+    id: title
+    attributes:
+      label: Question Title
+      description: A clear, specific title for your question
+      placeholder: "e.g., How to configure custom agent timeouts?"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Question Category
+      description: What area is your question about?
+      options:
+        - Installation & Setup
+        - Configuration
+        - Agent Development
+        - API Usage
+        - Database & Models
+        - CLI Tools
+        - Deployment
+        - Performance
+        - Troubleshooting
+        - Best Practices
+        - Integration
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: |
+        Be as specific as possible:
+        - What are you trying to achieve?
+        - What specific problem are you facing?
+        - What have you already tried?
+        - What behavior are you expecting vs. what you're seeing?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context & Environment
+      description: Provide context about your setup and environment
+      placeholder: |
+        - Agaip version: 
+        - Python version: 
+        - Operating System: 
+        - Deployment environment: 
+        - Relevant configuration: 
+    validations:
+      required: true
+
+  - type: textarea
+    id: code
+    attributes:
+      label: Relevant Code
+      description: Share relevant code snippets (if applicable)
+      render: python
+      placeholder: |
+        # Share your code here
+        # Remove sensitive information like API keys
+        
+        from agaip import Agent
+        
+        # Your code example...
+
+  - type: textarea
+    id: error
+    attributes:
+      label: Error Messages or Logs
+      description: Include any error messages or relevant log output
+      render: shell
+      placeholder: |
+        Paste error messages or logs here...
+
+  - type: textarea
+    id: attempted
+    attributes:
+      label: What You've Tried
+      description: What solutions have you already attempted?
+      placeholder: |
+        - Checked documentation section X
+        - Tried approach Y
+        - Searched for similar issues
+        - Attempted solution Z
+
+  - type: checkboxes
+    id: research
+    attributes:
+      label: Research Checklist
+      description: Please confirm you've done basic research
+      options:
+        - label: I've searched existing discussions and issues
+          required: true
+        - label: I've checked the documentation
+          required: true
+        - label: I've tried basic troubleshooting steps
+          required: true
+
+  - type: dropdown
+    id: urgency
+    attributes:
+      label: Urgency Level
+      description: How urgent is this question?
+      options:
+        - Low (learning/exploring)
+        - Medium (development blocked)
+        - High (production issue)
+        - Critical (system down)

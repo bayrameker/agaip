@@ -1,0 +1,71 @@
+labels: ["discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        💬 **General Discussion Template**
+        
+        Use this template for general discussions, ideas, and community conversations about Agaip.
+
+  - type: input
+    id: title
+    attributes:
+      label: Discussion Title
+      description: A clear, descriptive title for your discussion
+      placeholder: "e.g., Best practices for agent configuration"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Discussion Category
+      description: What category best fits your discussion?
+      options:
+        - General
+        - Ideas & Suggestions
+        - Best Practices
+        - Use Cases
+        - Architecture
+        - Performance
+        - Integration
+        - Community
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: topic
+    attributes:
+      label: Discussion Topic
+      description: What would you like to discuss?
+      placeholder: |
+        Describe your topic, question, or idea in detail. Include:
+        - Context or background
+        - Specific questions or points for discussion
+        - Your current approach or thoughts
+        - What you're hoping to achieve or learn
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any additional context that might be helpful
+      placeholder: |
+        - Your use case or scenario
+        - Relevant code examples
+        - Links to documentation or resources
+        - Previous discussions or issues
+
+  - type: checkboxes
+    id: research
+    attributes:
+      label: Research Done
+      description: Have you done any research on this topic?
+      options:
+        - label: I've searched existing discussions
+        - label: I've checked the documentation
+        - label: I've looked at related issues
+        - label: I've tried to find examples or tutorials
