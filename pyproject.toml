@@ -29,13 +29,13 @@ classifiers = [
 python = "^3.10"
 
 # Core Framework
-fastapi = "^0.104.1"
-uvicorn = {extras = ["standard"], version = "^0.24.0"}
+fastapi = "^0.115.13"
+uvicorn = {extras = ["standard"], version = "^0.34.3"}
 pydantic = {extras = ["email"], version = "^2.5.0"}
 pydantic-settings = "^2.1.0"
 
 # Database & ORM
-tortoise-orm = {extras = ["aiosqlite"], version = "^0.20.0"}
+tortoise-orm = {extras = ["aiosqlite"], version = "^0.25.1"}
 aerich = "^0.7.2"  # Database migrations
 
 # Configuration & Environment
