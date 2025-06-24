@@ -1,0 +1,119 @@
+# Repository Labels Configuration
+
+# Type labels
+- name: "type/bug"
+  color: "d73a4a"
+  description: "Something isn't working"
+
+- name: "type/feature"
+  color: "a2eeef"
+  description: "New feature or request"
+
+- name: "type/enhancement"
+  color: "84b6eb"
+  description: "Improvement to existing feature"
+
+- name: "type/documentation"
+  color: "0075ca"
+  description: "Improvements or additions to documentation"
+
+- name: "type/question"
+  color: "d876e3"
+  description: "Further information is requested"
+
+# Priority labels
+- name: "priority/critical"
+  color: "b60205"
+  description: "Critical priority"
+
+- name: "priority/high"
+  color: "d93f0b"
+  description: "High priority"
+
+- name: "priority/medium"
+  color: "fbca04"
+  description: "Medium priority"
+
+- name: "priority/low"
+  color: "0e8a16"
+  description: "Low priority"
+
+# Area labels
+- name: "area/core"
+  color: "5319e7"
+  description: "Core framework functionality"
+
+- name: "area/api"
+  color: "1d76db"
+  description: "API and endpoints"
+
+- name: "area/agents"
+  color: "0052cc"
+  description: "Agent system and management"
+
+- name: "area/database"
+  color: "006b75"
+  description: "Database and ORM related"
+
+- name: "area/cli"
+  color: "0e8a16"
+  description: "Command line interface"
+
+- name: "area/docs"
+  color: "c5def5"
+  description: "Documentation"
+
+- name: "area/tests"
+  color: "f9d0c4"
+  description: "Testing and test coverage"
+
+# Status labels
+- name: "status/needs-triage"
+  color: "ededed"
+  description: "Needs initial review and categorization"
+
+- name: "status/in-progress"
+  color: "yellow"
+  description: "Currently being worked on"
+
+- name: "status/blocked"
+  color: "red"
+  description: "Blocked by external dependency"
+
+- name: "status/ready"
+  color: "green"
+  description: "Ready for implementation"
+
+# Community labels
+- name: "good first issue"
+  color: "7057ff"
+  description: "Good for newcomers"
+
+- name: "help wanted"
+  color: "008672"
+  description: "Extra attention is needed"
+
+- name: "hacktoberfest"
+  color: "ff6b35"
+  description: "Hacktoberfest eligible"
+
+# Size labels for PRs
+- name: "size/xs"
+  color: "3cbf00"
+  description: "Extra small PR"
+
+- name: "size/s"
+  color: "5d9801"
+  description: "Small PR"
+
+- name: "size/m"
+  color: "7f7203"
+  description: "Medium PR"
+
+- name: "size/l"
+  color: "a14c05"
+  description: "Large PR"
+
+- name: "size/xl"
+  color: "c32607"
+  description: "Extra large PR"
