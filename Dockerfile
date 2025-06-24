@@ -5,7 +5,7 @@
 # =============================================================================
 # BASE STAGE - Common dependencies and setup
 # =============================================================================
-FROM python:3.11-slim as base
+FROM python:3.13-slim as base
 
 # Set environment variables
 ENV PYTHONUNBUFFERED=1 \
