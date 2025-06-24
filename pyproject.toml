@@ -36,7 +36,7 @@ pydantic-settings = "^2.1.0"
 
 # Database & ORM
 tortoise-orm = {extras = ["aiosqlite"], version = "^0.20.0"}
-aerich = "^0.7.2"  # Database migrations
+aerich = "^0.8.0"  # Database migrations
 
 # Configuration & Environment
 pyyaml = "^6.0.1"
