@@ -34,7 +34,7 @@ jobs:
       (github.event_name == 'pull_request' && github.event.action == 'opened')
     steps:
       - name: Add to project
-        uses: actions/add-to-project@v0.5.0
+        uses: actions/add-to-project@v1.0.2
         with:
           project-url: https://github.com/users/bayrameker/projects/1
           github-token: ${{ secrets.PROJECT_TOKEN }}
