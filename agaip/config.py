@@ -1,6 +1,8 @@
 # agaip/config.py
-import yaml
 import os
+
+import yaml
+
 
 def load_config(config_path: str = "config.yaml"):
     if not os.path.exists(config_path):

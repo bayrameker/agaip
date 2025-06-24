@@ -2,6 +2,7 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 
+
 class BaseModelPlugin(ABC):
     @abstractmethod
     async def load_model(self) -> None:

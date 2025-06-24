@@ -1,6 +1,7 @@
 # agaip/utils/plugin_loader.py
 import importlib
 
+
 def load_plugin(plugin_path: str):
     """
     Örnek plugin path: "agaip.plugins.dummy_model.DummyModelPlugin"

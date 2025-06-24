@@ -12,6 +12,6 @@ __all__ = [
     "create_app",
     "get_app",
     "get_current_user",
-    "get_database", 
+    "get_database",
     "get_settings",
 ]

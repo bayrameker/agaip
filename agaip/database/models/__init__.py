@@ -5,14 +5,14 @@ This module contains all database model definitions using Tortoise ORM
 with proper relationships, validation, and serialization.
 """
 
+from .agent import Agent
 from .base import BaseModel
 from .task import Task
-from .agent import Agent
 from .user import User
 
 __all__ = [
     "BaseModel",
     "Task",
-    "Agent", 
+    "Agent",
     "User",
 ]

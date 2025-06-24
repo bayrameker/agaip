@@ -7,14 +7,15 @@ and monitoring task execution.
 
 from typing import Any, Dict, List, Optional
 from uuid import UUID
+
 from fastapi import APIRouter, Depends, HTTPException, Query
 from pydantic import BaseModel
 
-from agaip.api.dependencies import get_current_user, get_container_dependency
-from agaip.database.models.user import User
-from agaip.database.models.task import TaskPriority
-from agaip.services.task_service import TaskService
+from agaip.api.dependencies import get_container_dependency, get_current_user
 from agaip.core.container import Container
+from agaip.database.models.task import TaskPriority
+from agaip.database.models.user import User
+from agaip.services.task_service import TaskService
 
 router = APIRouter()
 
@@ -45,12 +46,12 @@ class TaskResponse(BaseModel):
 async def create_task(
     task_request: TaskCreateRequest,
     current_user: User = Depends(get_current_user),
-    container: Container = Depends(get_container_dependency)
+    container: Container = Depends(get_container_dependency),
 ) -> TaskResponse:
     """Create a new task for execution."""
-    
+
     task_service = container.resolve(TaskService)
-    
+
     task = await task_service.create_task(
         name=task_request.name,
         agent_id=task_request.agent_id,
@@ -59,9 +60,9 @@ async def create_task(
         max_retries=task_request.max_retries,
         timeout_seconds=task_request.timeout_seconds,
         description=task_request.description,
-        created_by_id=current_user.id
+        created_by_id=current_user.id,
     )
-    
+
     return TaskResponse(
         id=str(task.id),
         name=task.name,
@@ -71,7 +72,7 @@ async def create_task(
         created_at=task.created_at.isoformat(),
         payload=task.payload,
         result=task.result,
-        error_message=task.error_message
+        error_message=task.error_message,
     )
 
 
@@ -82,20 +83,20 @@ async def list_tasks(
     limit: int = Query(50, ge=1, le=100, description="Number of tasks to return"),
     offset: int = Query(0, ge=0, description="Number of tasks to skip"),
     current_user: User = Depends(get_current_user),
-    container: Container = Depends(get_container_dependency)
+    container: Container = Depends(get_container_dependency),
 ) -> List[TaskResponse]:
     """List tasks with optional filtering."""
-    
+
     task_service = container.resolve(TaskService)
-    
+
     tasks = await task_service.list_tasks(
         user_id=current_user.id if not current_user.is_admin else None,
         status=status,
         agent_id=agent_id,
         limit=limit,
-        offset=offset
+        offset=offset,
     )
-    
+
     return [
         TaskResponse(
             id=str(task.id),
@@ -106,7 +107,7 @@ async def list_tasks(
             created_at=task.created_at.isoformat(),
             payload=task.payload,
             result=task.result,
-            error_message=task.error_message
+            error_message=task.error_message,
         )
         for task in tasks
     ]
@@ -116,20 +117,20 @@ async def list_tasks(
 async def get_task(
     task_id: UUID,
     current_user: User = Depends(get_current_user),
-    container: Container = Depends(get_container_dependency)
+    container: Container = Depends(get_container_dependency),
 ) -> TaskResponse:
     """Get detailed information about a specific task."""
-    
+
     task_service = container.resolve(TaskService)
-    
+
     task = await task_service.get_task(task_id)
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
-    
+
     # Check permissions
     if not current_user.is_admin and task.created_by_id != current_user.id:
         raise HTTPException(status_code=403, detail="Access denied")
-    
+
     return TaskResponse(
         id=str(task.id),
         name=task.name,
@@ -139,7 +140,7 @@ async def get_task(
         created_at=task.created_at.isoformat(),
         payload=task.payload,
         result=task.result,
-        error_message=task.error_message
+        error_message=task.error_message,
     )
 
 
@@ -147,16 +148,16 @@ async def get_task(
 async def cancel_task(
     task_id: UUID,
     current_user: User = Depends(get_current_user),
-    container: Container = Depends(get_container_dependency)
+    container: Container = Depends(get_container_dependency),
 ) -> Dict[str, Any]:
     """Cancel a pending or processing task."""
-    
+
     task_service = container.resolve(TaskService)
-    
+
     success = await task_service.cancel_task(task_id, current_user.id)
     if not success:
         raise HTTPException(status_code=400, detail="Task cannot be cancelled")
-    
+
     return {"message": "Task cancelled successfully"}
 
 
@@ -164,16 +165,16 @@ async def cancel_task(
 async def retry_task(
     task_id: UUID,
     current_user: User = Depends(get_current_user),
-    container: Container = Depends(get_container_dependency)
+    container: Container = Depends(get_container_dependency),
 ) -> Dict[str, Any]:
     """Retry a failed task if retries are available."""
-    
+
     task_service = container.resolve(TaskService)
-    
+
     success = await task_service.retry_task(task_id, current_user.id)
     if not success:
         raise HTTPException(status_code=400, detail="Task cannot be retried")
-    
+
     return {"message": "Task queued for retry"}
 
 
@@ -181,15 +182,15 @@ async def retry_task(
 async def get_task_statistics(
     agent_id: Optional[str] = Query(None, description="Filter by agent ID"),
     current_user: User = Depends(get_current_user),
-    container: Container = Depends(get_container_dependency)
+    container: Container = Depends(get_container_dependency),
 ) -> Dict[str, Any]:
     """Get task execution statistics."""
-    
+
     task_service = container.resolve(TaskService)
-    
+
     stats = await task_service.get_task_statistics(
         user_id=current_user.id if not current_user.is_admin else None,
-        agent_id=agent_id
+        agent_id=agent_id,
     )
-    
+
     return stats

@@ -1,6 +1,7 @@
 # agaip/models/task.py
 from tortoise import fields, models
 
+
 class Task(models.Model):
     id = fields.IntField(pk=True)
     agent_id = fields.CharField(max_length=50)

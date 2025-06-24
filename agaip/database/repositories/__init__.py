@@ -5,9 +5,9 @@ This module provides repository classes for data access abstraction
 and business logic separation from database operations.
 """
 
+from .agent import AgentRepository
 from .base import BaseRepository
 from .task import TaskRepository
-from .agent import AgentRepository
 from .user import UserRepository
 
 __all__ = [

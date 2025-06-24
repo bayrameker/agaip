@@ -2,6 +2,7 @@
 import asyncio
 from typing import Any, Dict
 
+
 class Agent:
     def __init__(self, agent_id: str, model_plugin):
         self.agent_id = agent_id

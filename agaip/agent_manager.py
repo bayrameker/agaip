@@ -1,8 +1,10 @@
 # agaip/agent_manager.py
 from typing import Dict
+
 from agaip.agents.agent import Agent
-from agaip.utils.plugin_loader import load_plugin
 from agaip.models.task import Task  # Tortoise ORM modeli
+from agaip.utils.plugin_loader import load_plugin
+
 
 class AgentManager:
     def __init__(self):
@@ -20,9 +22,7 @@ class AgentManager:
             return {"error": f"Agent '{agent_id}' bulunamadı."}
         # Görev veritabanına kaydediliyor (başlangıçta 'processing')
         task_record = await Task.create(
-            agent_id=agent_id,
-            payload=task_data,
-            status="processing"
+            agent_id=agent_id, payload=task_data, status="processing"
         )
         agent = self.agents[agent_id]
         result = await agent.process_task(task_data)

@@ -12,14 +12,16 @@ __version__ = "3.0.0"
 __author__ = "Bayram Eker"
 __email__ = "eker600@gmail.com"
 
-from .application import AgaipApplication
+from .application import AgaipApplication, create_application, get_application
 from .container import Container
-from .events import EventBus, Event
+from .events import Event, EventBus
 from .exceptions import AgaipException, ConfigurationError, PluginError
 
 __all__ = [
     "AgaipApplication",
-    "Container", 
+    "get_application",
+    "create_application",
+    "Container",
     "EventBus",
     "Event",
     "AgaipException",
