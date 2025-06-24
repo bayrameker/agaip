@@ -1,78 +1,40 @@
-version: 2
-updates:
-  # Python dependencies
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-      day: "monday"
-      time: "09:00"
-      timezone: "UTC"
-    open-pull-requests-limit: 2
-    assignees:
-      - "bayrameker"
-    commit-message:
-      prefix: "deps"
-      prefix-development: "deps-dev"
-      include: "scope"
-    labels:
-      - "dependencies"
-      - "python"
-    groups:
-      production-dependencies:
-        patterns:
-          - "fastapi*"
-          - "uvicorn*"
-          - "pydantic*"
-          - "tortoise-orm*"
-          - "redis*"
-          - "celery*"
-        update-types:
-          - "minor"
-          - "patch"
-      development-dependencies:
-        patterns:
-          - "pytest*"
-          - "black*"
-          - "isort*"
-          - "flake8*"
-          - "mypy*"
-        update-types:
-          - "minor"
-          - "patch"
+# Dependabot configuration temporarily disabled due to spam issues
+# Will be re-enabled after proper testing and configuration
 
-  # GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-      day: "monday"
-      time: "09:00"
-      timezone: "UTC"
-    open-pull-requests-limit: 2
-    assignees:
-      - "bayrameker"
-    commit-message:
-      prefix: "ci"
-      include: "scope"
-    labels:
-      - "dependencies"
-      - "github-actions"
-
-  # Docker
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "monthly"
-      day: "monday"
-      time: "09:00"
-      timezone: "UTC"
-    open-pull-requests-limit: 1
-    assignees:
-      - "bayrameker"
-    commit-message:
-      prefix: "docker"
-      include: "scope"
-    labels:
-      - "dependencies"
-      - "docker"
+# version: 2
+# updates:
+#   # Python dependencies
+#   - package-ecosystem: "pip"
+#     directory: "/"
+#     schedule:
+#       interval: "monthly"
+#       day: "monday"
+#       time: "09:00"
+#       timezone: "UTC"
+#     open-pull-requests-limit: 1
+#     assignees:
+#       - "bayrameker"
+#     commit-message:
+#       prefix: "deps"
+#       include: "scope"
+#     labels:
+#       - "dependencies"
+#       - "python"
+#
+#   # GitHub Actions
+#   - package-ecosystem: "github-actions"
+#     directory: "/"
+#     schedule:
+#       interval: "monthly"
+#       day: "monday"
+#       time: "09:00"
+#       timezone: "UTC"
+#     open-pull-requests-limit: 1
+#     assignees:
+#       - "bayrameker"
+#     commit-message:
+#       prefix: "ci"
+#       include: "scope"
+#     labels:
+#       - "dependencies"
+#       - "github-actions"
