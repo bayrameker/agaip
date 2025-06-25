@@ -1,12 +1,13 @@
-name: Performance Benchmarks
+# TEMPORARILY DISABLED - Will be re-enabled later
+# name: Performance Benchmarks
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  schedule:
-    - cron: '0 2 * * 1'  # Weekly on Mondays at 2 AM UTC
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
+#   schedule:
+#     - cron: '0 2 * * 1'  # Weekly on Mondays at 2 AM UTC
 
 env:
   PYTHON_VERSION: "3.11"

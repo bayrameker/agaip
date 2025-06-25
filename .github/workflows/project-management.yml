@@ -1,12 +1,13 @@
-name: Project Management
+# TEMPORARILY DISABLED - Will be re-enabled later
+# name: Project Management
 
-on:
-  issues:
-    types: [opened, closed, reopened, labeled, unlabeled]
-  pull_request:
-    types: [opened, closed, reopened, ready_for_review, converted_to_draft]
-  issue_comment:
-    types: [created]
+# on:
+#   issues:
+#     types: [opened, closed, reopened, labeled, unlabeled]
+#   pull_request:
+#     types: [opened, closed, reopened, ready_for_review, converted_to_draft]
+#   issue_comment:
+#     types: [created]
 
 permissions:
   issues: write

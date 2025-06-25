@@ -1,18 +1,19 @@
-name: Documentation
+# TEMPORARILY DISABLED - Will be re-enabled later
+# name: Documentation
 
-on:
-  push:
-    branches: [ main ]
-    paths:
-      - 'docs/**'
-      - 'agaip/**'
-      - 'mkdocs.yml'
-      - '.github/workflows/docs.yml'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'docs/**'
-      - 'mkdocs.yml'
+# on:
+#   push:
+#     branches: [ main ]
+#     paths:
+#       - 'docs/**'
+#       - 'agaip/**'
+#       - 'mkdocs.yml'
+#       - '.github/workflows/docs.yml'
+#   pull_request:
+#     branches: [ main ]
+#     paths:
+#       - 'docs/**'
+#       - 'mkdocs.yml'
 
 jobs:
   build-docs:

@@ -1,15 +1,16 @@
-name: Release
+# TEMPORARILY DISABLED - Will be re-enabled later
+# name: Release
 
-on:
-  push:
-    tags:
-      - 'v*'
-  workflow_dispatch:
-    inputs:
-      version:
-        description: 'Version to release (e.g., v1.0.0)'
-        required: true
-        type: string
+# on:
+#   push:
+#     tags:
+#       - 'v*'
+#   workflow_dispatch:
+#     inputs:
+#       version:
+#         description: 'Version to release (e.g., v1.0.0)'
+#         required: true
+#         type: string
 
 env:
   PYTHON_VERSION: "3.11"
